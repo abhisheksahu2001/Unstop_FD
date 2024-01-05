@@ -1,12 +1,15 @@
-import React from 'react'
+import React from 'react';
 import classNames from 'classnames';
-interface IContainer {
-    children: React.ReactNode,
+
+// Define the props interface for the Container component
+interface IContainerProps {
+    children: React.ReactNode;
     className: string;
 }
 
-export const Container = ({ children, className }: IContainer) => {
+// Container component receives the props and renders a section with dynamic classNames
+export const Container = ({ children, className }: IContainerProps) => {
     return (
-        <section className={classNames(className)} >{children}</section>
-    )
+        <section className={classNames(className)}>{children}</section>
+    );
 }

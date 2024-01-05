@@ -1,7 +1,8 @@
-import React, { MouseEventHandler } from 'react'
-import { IconType } from 'react-icons'
+import React, { MouseEventHandler } from 'react';
+import { IconType } from 'react-icons';
 
-interface AddCard {
+// Define the props interface for the AddCard component
+interface AddCardProps {
     Icon: IconType;
     iconSize?: number | string;
     title: string;
@@ -9,18 +10,25 @@ interface AddCard {
     handleClick: MouseEventHandler<HTMLButtonElement>;
 }
 
-const AddCard = ({ Icon, iconSize, title, subTitle, handleClick }: AddCard) => {
+// AddCard component receives the props and renders a button with specified content and styling
+const AddCard = ({ Icon, iconSize, title, subTitle, handleClick }: AddCardProps) => {
     return (
-        <button className='font-font-inter  font-medium flex items-center gap-3 xl:gap-4 justify-center
-         flex-col max-w-[450px]  min-w-[350px] min-h-[200px]  bg-primaryBackground p-8 border border-dashed  border-primaryBorder
-         rounded-xl
-         '
-            onClick={handleClick}  >
-            <Icon size={iconSize ?? 60} className=' rounded-full bg-secondaryBackground p-4 text-AccentBlue    ' />
-            <h2 className='text-lg md:text-xl  text-primaryText ' >{title}</h2>
-            <p className=' text-xs md:text-sm  text-primaryText font-semibold   ' >{subTitle}</p>
+        <button
+            className='font-font-inter font-medium flex items-center  xl:gap-8 gap-5 p-2 xl:p-4 
+            flex-col  max-w-[450px] min-w-[400px] md:min-w-[350px] min-h-[150px] bg-primaryBackground  border border-dashed  border-primaryBorder
+            rounded-xl'
+            onClick={handleClick} // Attach the provided click handler
+        >
+            {/* Render the provided Icon with optional size */}
+            <Icon size={iconSize ?? 60} className='rounded-full bg-secondaryBackground p-4 text-AccentBlue' />
+
+            {/* Render the title with specified text size and color */}
+            <h2 className='text-lg md:text-xl text-primaryText'>{title}</h2>
+
+            {/* Render the subTitle with specified text size, color, and font weight */}
+            <p className='text-xs md:text-sm text-primaryText font-semibold'>{subTitle}</p>
         </button>
-    )
+    );
 }
 
-export default AddCard
+export default AddCard;

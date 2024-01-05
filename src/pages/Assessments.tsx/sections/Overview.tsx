@@ -7,6 +7,7 @@ import { MdOutlinePeopleAlt } from 'react-icons/md';
 import { AiOutlineGlobal } from 'react-icons/ai';
 import classNames from 'classnames';
 
+// Configuration data for different sections
 const config = [
     {
         title: 'Total Assessment',
@@ -53,85 +54,86 @@ const config = [
     },
 ];
 
-const AddBorderInMobileView = (idx: number, title: string) => {
-    if (idx > 0 && idx < config.length - 1 && idx % 2 == 0) {
-        return 'border-y border-y-primary-border lg:border-y-0 '
+
+// Function to add a border based on the mobile view index
+const getMobileBorderClass = (idx: number, title: string) => {
+    if (idx > 0 && idx < config.length - 1 && idx % 2 === 0) {
+        return 'border-y border-y-primary-border lg:border-y-0 ';
     } else if (idx > 0 && idx < config.length - 1 && idx % 2 !== 0) {
-        return 'border-t border-t-primary-border lg:border-t-0 '
+        return 'border-t border-t-primary-border lg:border-t-0 ';
     } else {
-        return ''
+        return '';
     }
-}
+};
 
 interface IOverview {
-    resolution: string
-    showOverView: boolean
+    resolution: string;
+    showOverView: boolean;
 }
 
 const Overview = ({ resolution, showOverView }: IOverview) => {
-
-    const mergeItem = config.filter((item) => item.mobileView == true)
-
-
+    // Merge items with mobileView set to true
+    const mergeItem = config.filter((item) => item.mobileView == true);
 
     return (
         <section className={classNames(' flex items-center justify-center w-full  lg:block lg:w-max h-[400px] lg:h-auto   lg:top-0  duration-200', showOverView ? "opacity-100 relative top-20   " : " lg:opacity-100  opacity-0 ")}>
+            {/* Heading for the desktop view */}
             <h2 className='text-xl font-semibold text-primaryText my-4  hidden lg:block'>
                 Assessments Overview
             </h2>
+            {/* Container for overview items */}
             <div className='border rounded-xl m-1 border-primaryBorder lg:divide-x lg:flex-row flex-col divide-primaryBorder flex '>
-                {(resolution == 'sm' || resolution == 'md') && (<div className={classNames('flex flex-1 divide-x divide-primaryBorder lg:hidden  ')}>
-                    {mergeItem && (
-                        mergeItem.map((item, index) => (
-                            <div
-                                key={index}
-                                className={classNames('flex-1')}
-
-                            >
-                                <span
-                                    className={`flex flex-col  p-4 gap-4 flex-1 ${item.title === 'Total Purpose' && 'lg:border-r-transparent'
-                                        }`}
+                {/* Mobile view */}
+                {(resolution == 'sm' || resolution == 'md') && (
+                    <div className={classNames('flex flex-1 divide-x divide-primaryBorder lg:hidden  ')}>
+                        {mergeItem && (
+                            mergeItem.map((item, index) => (
+                                <div
+                                    key={index}
+                                    className={classNames('flex-1')}
                                 >
-                                    <h2 className='text-sm font-semibold text-primaryText font-font-inter w-max'>{item.title}</h2>
-                                    <div className={classNames('flex gap-4 items-center  ', !item.scores && ('mt-2'))} >
-
-                                        <IconBadge Icon={item.icon} color={item.color} backgroundColor={item.backgroundColor} />
-
-                                        <span className='flex gap-4 items-center py-1 '>
-                                            <p className='font-extrabold text-primaryText font-font-inter text-xl'>{item.value}</p>
-                                        </span>
-                                    </div>
-                                </span>
-                            </div>
-                        ))
-
-                    )}
-                </div>)
-                }
+                                    {/* Overview item for mobile view */}
+                                    <span
+                                        className={`flex flex-col  p-4 gap-4 flex-1 ${item.title === 'Total Purpose' && 'lg:border-r-transparent'}`}
+                                    >
+                                        <h2 className='text-sm font-semibold text-primaryText font-font-inter w-max'>{item.title}</h2>
+                                        <div className={classNames('flex gap-4 items-center  ', !item.scores && ('mt-2'))} >
+                                            {/* Icon Badge and value */}
+                                            <IconBadge Icon={item.icon} color={item.color} backgroundColor={item.backgroundColor} />
+                                            <span className='flex gap-4 items-center py-1 '>
+                                                <p className='font-extrabold text-primaryText font-font-inter text-xl'>{item.value}</p>
+                                            </span>
+                                        </div>
+                                    </span>
+                                </div>
+                            ))
+                        )}
+                    </div>
+                )}
+                {/* Desktop view */}
                 {config.map((item, index) => (
-
                     <div
                         key={index}
-                        className={classNames("flex  ", item.title === 'Total Purpose' && ' hidden lg:block  lg:order-3',
-                            AddBorderInMobileView(index, item.title),
+                        className={classNames(
+                            "flex  ",
+                            item.title === 'Total Purpose' && ' hidden lg:block  lg:order-3',
+                            getMobileBorderClass(index, item.title),
                             (resolution === 'sm' || resolution === 'lg' || resolution === 'md') && item.mobileView && ('hidden')
-
-                        )
-
-                        }
-
+                        )}
                     >
+                        {/* Overview item for desktop view */}
                         <span
-                            className={`flex flex-col  p-4 gap-4 flex-1 ${item.title === 'Total Purpose' && 'lg:border-r-transparent'
-                                }`}
+                            className={`flex flex-col  p-4 gap-4 flex-1 ${item.title === 'Total Purpose' && 'lg:border-r-transparent'}`}
                         >
                             <h2 className='text-sm font-semibold text-primaryText font-font-inter w-max'>{item.title}</h2>
                             <div className={classNames('flex gap-4 items-center  ', !item.scores && ('mt-2'))} >
-
+                                {/* Icon Badge and value */}
                                 <IconBadge Icon={item.icon} color={item.color} backgroundColor={item.backgroundColor} />
+                                {/* Display either scores or a single value */}
                                 {item.scores ? (
                                     item.scores.map((score, scoreIndex) => (
                                         <span key={scoreIndex} className='flex gap-4 items-center py-1'>
+                                            {/* Display individual score */}
                                             <Score
                                                 className={`px-2 ${scoreIndex < item.scores.length - 1 ? 'border-r w-max border-primaryBorder' : 'w-max'
                                                     }`}
